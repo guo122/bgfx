@@ -6,3 +6,6 @@
 tags
 .gdb_history
 .vscode
+
+*.swp
+Solution
