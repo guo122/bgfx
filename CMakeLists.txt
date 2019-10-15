@@ -1,13 +1,60 @@
-cmake_minimum_required (VERSION 3.0.2)
 
-project(bgfx)
+set(PROJECT_NAME bgfx)
 
-set(CMAKE_ROOT_DIR "${CMAKE_CURRENT_LIST_DIR}")
+set(CMAKE_C_COMPILER g++)
+add_compile_options(-std=c++1y -fno-objc-arc)
 
-include(${CMAKE_ROOT_DIR}/BuildScript/cmake/Build.cmake)
+set(BGFX_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-# enable project folders
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "CMake")
+set(INC_DIR 
+	${BGFX_DIR}/3rdparty/dxsdk/include
+	${BGFX_DIR}/3rdparty/khronos
+	${BGFX_DIR}/../bx/include
+	${BGFX_DIR}/../bimg/include
+	${BGFX_DIR}/include
+)
 
-add_subdirectory(src)
+IF (OS_IS_WINDOWS)
+	set(INC_DIR ${INC_DIR} 
+		${BGFX_DIR}/../bx/include/compat/msvc
+	)
+ENDIF()
+			
+include_directories(${INC_DIR})
+
+if(OS_IS_MACOS)
+	Add_Definitions(
+		-D__STDC_LIMIT_MACROS
+		-D__STDC_FORMAT_MACROS
+		-D__STDC_CONSTANT_MACROS
+		-D_DEBUG
+        -DBGFX_CONFIG_DEBUG=1
+		-D_HAS_ITERATOR_DEBUGGING=0
+		-DHAS_METAL_SDK
+		-DBGFX_CONFIG_RENDERER_VULKAN=0
+)
+else()
+Add_Definitions(
+	-D__STDC_LIMIT_MACROS
+	-D__STDC_FORMAT_MACROS
+	-D__STDC_CONSTANT_MACROS
+	-D_HAS_EXCEPTIONS=0
+	-D_HAS_ITERATOR_DEBUGGING=0
+	-D_ITERATOR_DEBUG_LEVEL=0
+	-D_SCL_SECURE=0
+	-D_SECURE_SCL=0
+	-D_SCL_SECURE_NO_WARNINGS
+	-D_CRT_SECURE_NO_WARNINGS
+	-D_CRT_SECURE_NO_DEPRECATE
+	-DBGFX_CONFIG_DEBUG=1
+)
+endif()
+
+aux_add_lib(
+	${PROJECT_NAME} "bgfx"
+	"include/bgfx"
+	"include/bgfx/c99"
+	"src"
+)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC bx)
