@@ -115,7 +115,6 @@ if(OS_IS_MACOS)
         -DBGFX_CONFIG_DEBUG=1
 		-D_HAS_ITERATOR_DEBUGGING=0
 		-DHAS_METAL_SDK
-		-DBGFX_CONFIG_RENDERER_VULKAN=0
 )
 else()
 Add_Definitions(
@@ -136,8 +135,12 @@ endif()
 
 add_lib(
 				${PROJECT_NAME} 
-				FOLDER "libs" 
+				FOLDER "bgfx" 
 				SOURCES ${DIR_SRCS} ${C99_SRCS}
+)
+
+set_target_properties( ${PROJECT_NAME} PROPERTIES
+	XCODE_ATTRIBUTE_GCC_INPUT_FILETYPE "sourcecode.cpp.objcpp"
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC bx)
