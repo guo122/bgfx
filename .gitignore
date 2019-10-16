@@ -9,3 +9,7 @@ tags
 
 *.swp
 Solution
+
+Doxyfile
+html
+latex
