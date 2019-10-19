@@ -134,9 +134,9 @@ Add_Definitions(
 endif()
 
 add_lib(
-				${PROJECT_NAME} 
-				FOLDER "bgfx" 
-				SOURCES ${DIR_SRCS} ${C99_SRCS}
+	${PROJECT_NAME} 
+	FOLDER "3rd" 
+	SOURCES ${DIR_SRCS} ${C99_SRCS}
 )
 
 set_target_properties( ${PROJECT_NAME} PROPERTIES
