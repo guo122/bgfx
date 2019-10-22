@@ -143,4 +143,6 @@ set_target_properties( ${PROJECT_NAME} PROPERTIES
 	XCODE_ATTRIBUTE_GCC_INPUT_FILETYPE "sourcecode.cpp.objcpp"
 )
 
+target_include_directories( ${PROJECT_NAME} PUBLIC ${CMAKE_ROOT_DIR}/3rd/bgfx/include )
+
 target_link_libraries(${PROJECT_NAME} PUBLIC bx)
